@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="theme-color" content="#7C6FE0" />
+  <title>TaskFlow</title>
+
+  <!-- Google Font -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet" />
+
+  <!-- App Stylesheet -->
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+  <!-- LOGIN SCREEN -->
+  <div id="loginScreen">
+    <div class="login-bg-circle login-circle-1"></div>
+    <div class="login-bg-circle login-circle-2"></div>
+    <div class="login-bg-circle login-circle-3"></div>
+
+    <div class="login-card">
+      <div class="login-logo">✅</div>
+      <h1 class="login-title">TaskFlow</h1>
+      <p class="login-subtitle">Stay organised. Get things done.</p>
+
+      <div class="login-form">
+        <p class="login-label">What's your name?</p>
+        <div class="login-input-wrap">
+          <span class="login-input-icon">👤</span>
+          <input
+            type="text"
+            id="loginName"
+            class="login-input"
+            placeholder="Enter your name..."
+            maxlength="30"
+            autocomplete="off"
+          />
+        </div>
+        <p class="login-error" id="loginError">Please enter your name to continue.</p>
+        <button class="login-btn" onclick="handleLogin()">Get Started →</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- SPLASH SCREEN -->
+  <div id="splash" style="display:none;">
+    <div class="logo-icon">✅</div>
+    <h1>TaskFlow</h1>
+    <p>Manage your everyday tasks</p>
+  </div>
+
+  <!-- HOME SCREEN -->
+  <div id="homeScreen" class="screen">
+
+    <div class="home-header">
+      <div class="header-top">
+        <div>
+          <div class="greeting">Good day 👋</div>
+          <div class="name" id="headerName">Hello, User!</div>
+        </div>
+        <div class="avatar" id="headerAvatar">U</div>
+      </div>
+      <div class="stats-row">
+        <div class="stat-pill">
+          <div class="num" id="totalCount">0</div>
+          <div class="lbl">Total Tasks</div>
+        </div>
+        <div class="stat-pill">
+          <div class="num" id="pendingCount">0</div>
+          <div class="lbl">Pending</div>
+        </div>
+        <div class="stat-pill">
+          <div class="num" id="doneCount">0</div>
+          <div class="lbl">Completed</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="search-wrap">
+      <div class="search-box">
+        <span class="search-icon">🔍</span>
+        <input type="text" id="searchInput" placeholder="Search tasks..." oninput="renderTasks()" />
+      </div>
+    </div>
+
+    <div class="filter-tabs">
+      <button class="tab-btn active" onclick="setFilter('all', this)">All</button>
+      <button class="tab-btn" onclick="setFilter('active', this)">Active</button>
+      <button class="tab-btn" onclick="setFilter('completed', this)">Completed</button>
+      <button class="tab-btn" onclick="setFilter('high', this)">🔴 High</button>
+      <button class="tab-btn" onclick="setFilter('medium', this)">🟡 Medium</button>
+      <button class="tab-btn" onclick="setFilter('low', this)">🟢 Low</button>
+    </div>
+
+    <div class="section-title">
+      <span>Today's Tasks</span>
+      <a href="#" onclick="clearCompleted(); return false;">Clear done</a>
+    </div>
+
+    <div class="tasks-list" id="tasksList"></div>
+
+  </div>
+
+  <!-- ABOUT SCREEN -->
+  <div id="aboutScreen" class="screen">
+    <div class="about-screen">
+      <div class="about-hero">
+        <span class="icon">✅</span>
+        <h2>TaskFlow</h2>
+        <p>Your simple daily task manager</p>
+      </div>
+      <div class="feature-list">
+        <div class="feature-item">
+          <div class="feature-icon">➕</div>
+          <div>
+            <h3>Add Tasks</h3>
+            <p>Quickly add tasks with title, description, due date and priority level.</p>
+          </div>
+        </div>
+        <div class="feature-item">
+          <div class="feature-icon">✏️</div>
+          <div>
+            <h3>Edit Anytime</h3>
+            <p>Update any task detail whenever your plans change.</p>
+          </div>
+        </div>
+        <div class="feature-item">
+          <div class="feature-icon">✅</div>
+          <div>
+            <h3>Mark Complete</h3>
+            <p>Tap the circle to mark tasks as done and track your progress.</p>
+          </div>
+        </div>
+        <div class="feature-item">
+          <div class="feature-icon">🗑️</div>
+          <div>
+            <h3>Delete Tasks</h3>
+            <p>Remove tasks you no longer need to keep your list clean.</p>
+          </div>
+        </div>
+        <div class="feature-item">
+          <div class="feature-icon">💾</div>
+          <div>
+            <h3>Auto-Save</h3>
+            <p>All tasks are saved locally on your device — no account needed.</p>
+          </div>
+        </div>
+      </div>
+
+      <button class="btn-logout" onclick="handleLogout()">👤 Change Name / Logout</button>
+    </div>
+  </div>
+
+  <!-- BOTTOM NAVIGATION -->
+  <nav class="bottom-nav">
+    <button class="nav-btn active" id="navHome" onclick="switchTab('home')">
+      <span>🏠</span>
+      <span class="nav-label">Home</span>
+    </button>
+    <button class="nav-btn" id="navAbout" onclick="switchTab('about')">
+      <span>ℹ️</span>
+      <span class="nav-label">About</span>
+    </button>
+  </nav>
+
+  <!-- FLOATING ACTION BUTTON -->
+  <button class="fab" onclick="openAddSheet()" id="fab" title="Add Task">＋</button>
+
+  <!-- ADD / EDIT BOTTOM SHEET -->
+  <div class="overlay" id="sheetOverlay" onclick="closeSheet(event)">
+    <div class="sheet" id="sheet">
+      <div class="sheet-handle"></div>
+      <h2 id="sheetTitle">New Task</h2>
+
+      <div class="field-group">
+        <label>Task Title *</label>
+        <input type="text" id="inputTitle" placeholder="What needs to be done?" maxlength="80" />
+      </div>
+      <div class="field-group">
+        <label>Description (optional)</label>
+        <textarea id="inputDesc" placeholder="Add more details..."></textarea>
+      </div>
+      <div class="field-group">
+        <label>Due Date</label>
+        <input type="date" id="inputDate" />
+      </div>
+      <div class="field-group">
+        <label>Priority</label>
+        <div class="priority-row">
+          <button class="priority-pill" id="ph" onclick="setPriority('high')">🔴 High</button>
+          <button class="priority-pill" id="pm" onclick="setPriority('medium')">🟡 Medium</button>
+          <button class="priority-pill" id="pl" onclick="setPriority('low')">🟢 Low</button>
+        </div>
+      </div>
+
+      <button class="btn-primary" onclick="saveTask()">Save Task</button>
+      <button class="btn-secondary" onclick="closeSheet()">Cancel</button>
+    </div>
+  </div>
+
+  <!-- App Script loaded last so DOM is ready -->
+  <script src="js/app.js"></script>
+
+</body>
+</html>
